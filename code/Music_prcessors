@@ -1,0 +1,45 @@
+import numpy as np
+import wave
+import sys
+import abc
+import xlrd
+import xlwt
+import json
+from scipy.io import wavfile
+from sklearn.preprocessing import StandardScaler
+
+
+np.set_printoptions(threshold=sys.maxsize ,precision=4)
+
+
+class MusicProcess(object):
+    """
+    MusicProcess Class
+    """
+
+    def __init__(self, filename):
+        self.filename = filename
+    """"""
+    def interface(self):
+        self._instrucments = []
+        if
+
+
+
+
+
+    def wav_transform2data(self):
+        sampling_freq, audio = wavfile.read(self.filename)
+        audio =  audio / np.max(audio)
+        self.fft_signal = np.fft.fft(audio)
+        self.fft_signal = abs(self.fft_signal)
+
+        self.Freq = np.arange(0, len(self.fft_signal))
+
+        return self
+
+
+
+    """"""
+    def write_xls(self):
+        workbook = xlwt.Workbook(encoding='utf8')
