@@ -43,7 +43,7 @@ wave_data = np.reshape(wave_data, [nframes, nchannels])
 time = np.arange(0, nframes) * (1.0 / framerate)
 
 plt.figure()
-
+0-
 plt.subplot(2, 1, 1)
 plt.plot(time, wave_data[:, 0])
 plt.xlabel('time (seconds)')

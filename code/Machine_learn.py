@@ -66,6 +66,7 @@ plt.show()
 
 
 
+
 def rbf_kernel_pca(X, gamma, n_components):
     sq_dists = pdist(X, 'sqeuclidean')
     mat_sq_dists = squareform(sq_dists)
