@@ -34,6 +34,8 @@
 
 import os
 import numpy as np
+from tqdm import tqdm, trange
+from time import sleep
 import wave
 import sys
 import abc
@@ -44,6 +46,7 @@ from scipy.io import wavfile
 from xlrd.biffh import XLRDError
 from xlutils.copy import copy
 from sklearn.preprocessing import StandardScaler
+import data_compose
 
 
 np.set_printoptions(threshold=sys.maxsize ,precision=4)
@@ -57,10 +60,11 @@ class MusicProcess(object):
 
     """
 
-    def __init__(self, wavFilename):
+    def __init__(self, filename_dir, instructment = 'Piano'):
 
         self.xls_file = 'wave.data'
-        self.wavFilename = wavFilename
+        self.filename_dir = filename_dir
+        self.sheetname = instructment
 
     def interface(self):
         """User interface
@@ -75,29 +79,24 @@ class MusicProcess(object):
 
         """
 
+        for filePath in self.filename_dir:
+            #Process the file header  example: piano101.wav process after is string: piano
 
-        #Process the file header  example: piano101.wav process after is string: piano
-        wavfile_header = os.path.splitext(self.wavFilename)[0]
-        # format = '1234567890'
-        # for unit in file_header:
-        #     if  unit in format:
-        #         file_header = file_header.replace(unit ,'')
-        reset_wavfile_header = filter(str.isalpha, wavfile_header)
-        reset_wavfile_header = ''.join(reset_wavfile_header)
-
-        # if reset_file_header in self._instructments:
-        #     self.wav_transform2data()
-        #
-        # else:
-        #     self.add_sheet(reset_file_header)
-
-        wave_data = self.wav_transform2data(self.wavFilename)
-        self.search_instructments(wave_data, sheetName = reset_wavfile_header)
+            # reset_wavfile_header = filter(str.isalpha, wavfile_header)
+            # reset_wavfile_header = ''.join(reset_wavfile_header)
+            # if reset_file_header in self._instructments:
+            #     self.wav_transform2data()
+            #
+            # else:
+            #     self.add_sheet(reset_file_header)
+            self.wav_process(filePath+'.wav')
+            self.midi_process(filePath+'.midi')
 
 
 
-
-
+    def wav_process(self, filename):
+        wave.open(filename, 'rb')
+    def midi_process(self, filename):
 
 
     def search_instructments(self, data, sheetName=None, return_table=True):
@@ -124,8 +123,13 @@ class MusicProcess(object):
             except Exception:
                 sheetlen = rexcel.nsheets
                 sheet = excel.add_sheet("sheetName")
-            table = [[c.value for c in sheet.row(i)] for i in range(sheet.nrows)]
-            np.vstack((table, data))
+            # table = [[c.value for c in sheet.row(i)] for i in range(sheet.nrows)]
+            # np.vstack((table, data))
+
+            for i, row in enumerate(data):
+                for j, col in enumerate(row):
+                    sheet.write(i+rows, j, col)
+            excel.save(self.xls_file)
 
 
 
@@ -140,7 +144,7 @@ class MusicProcess(object):
 
     def wav_transform2data(self, filename):
         """"""
-        sampling_freq, audio = wavfile.read(self.filename)
+        sampling_freq, audio = wavfile.read(self.wavFilename)
         audio =  audio / np.max(audio)
         self.fft_signal = np.fft.fft(audio)
         self.fft_signal = abs(self.fft_signal)
@@ -159,8 +163,7 @@ class MusicProcess(object):
         """"""
         workbook = xlwt.Workbook(encoding='utf8')
 
-    def add_sheet(self, sheetname):
-        """"""
+
 
 
 
