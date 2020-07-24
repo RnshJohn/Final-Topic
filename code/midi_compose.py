@@ -32,6 +32,18 @@ import sys
 
 np.set_printoptions(threshold=sys.maxsize)
 
+NOTE_MAX_VALUE = 12
+NOTE_RANGE = np.arange(NOTE_MAX_VALUE)
+
+NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+WHITE_KEYS = [0, 2, 4, 5, 7, 9, 11]
+BLACK_KEYS = [1, 3, 6, 8, 10]
+NOTE_PER_OCTAVE = len(NOTE_NAMES)
+NOTE_NAME_MAP_FLAT = {}
+NOTE_VALUE_MAP_FLAT = {}
+NOTE_NAME_MAP_SHARP = {}
+NOTE_VALUE_MAP_SHARP = {}
+
 
 control_number_dict = {
     """對照表
@@ -40,12 +52,30 @@ control_number_dict = {
     """
 }
 
-def tickToDur(ticks, resolution = 96):
-    return float(ticks) / float((resolution * 4))
 
-def getChannal(track):
-    if len(track) > 0:
-        e = track[0]
+
+for idx in range(128):
+    note_idx = idx % NOTE_PER_OCTAVE
+    oct_idx = idx / NOTE_MAX_VALUE
+    note_name = NOTE_NAMES[note_idx]
+
+    if len(note_name) == 2:
+        # 升記號
+        flat = NOTE_NAMES[note_idx + 1] + 'b'
+        NOTE_NAME_MAP_FLAT['%s_%d' % (flat, oct_idx)] = idx
+        NOTE_NAME_MAP_SHARP['%s_%d' % (note_name, oct_idx)] = idx
+        NOTE_VALUE_MAP_FLAT.append('%s_%d' % (flat, oct_idx))
+        NOTE_VALUE_MAP_SHARP.append('%s_%d' % (note_name, oct_idx))
+        globals()['%s_%d' % (note_name[0] + 's', oct_idx)] = idx
+        globals()['%s_%d' % (flat, oct_idx)] = idx
+    else:
+        NOTE_NAME_MAP_FLAT['%s_%d' % (note_name, oct_idx)] = idx
+        NOTE_NAME_MAP_SHARP['%s_%d' % (note_name, oct_idx)] = idx
+        NOTE_VALUE_MAP_FLAT.append('%s_%d' % (note_name, oct_idx))
+        NOTE_VALUE_MAP_SHARP.append('%s_%d' % (note_name, oct_idx))
+        globals()['%s_%d' % (note_name, oct_idx)] = idx
+
+
 
 
 
@@ -90,6 +120,7 @@ def getNoteTimeOnOffArray(mid, res_factor):
                 elif message.type == 'program_change':
                     currentPatch = message.program
                     print(currentPatch) #instrucment: right now is not used
+                elif message.type == 'set_temp'
                 else:
                     print("Error: Note type not recongnized")
 

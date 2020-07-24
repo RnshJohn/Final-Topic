@@ -20,43 +20,43 @@ import contextlib
 np.set_printoptions(threshold=sys.maxsize, precision=4)
 
 
-audio_path = '../music/piano.wav'
-x, sr = librosa.load(audio_path, sr=None)
-print(type(x), type(sr))
-plt.figure(figsize=(14, 5))
-librosa.display.waveplot(x, sr=sr)
-plt.xlabel('Time')
-plt.ylabel('Frequency')
-plt.show()
-
-
-Wave_read = wave.open('../music/piano.wav', 'rb')
-params = Wave_read.getparams()
-nchannels, sampwidth, framerate, nframes = params[:4]
-
-str_data = Wave_read.readframes(nframes)
-Wave_read.close()
-
-wave_data = np.fromstring(str_data, dtype=np.short)
-# wave_data = wave_data*1.0/(max(abs(wave_data)))
-wave_data = np.reshape(wave_data, [nframes, nchannels])
-time = np.arange(0, nframes) * (1.0 / framerate)
-
-plt.figure()
-0-
-plt.subplot(2, 1, 1)
-plt.plot(time, wave_data[:, 0])
-plt.xlabel('time (seconds)')
-plt.ylabel('Amplititude')
-plt.title('Left channel')
-plt.grid()
-
-plt.subplot(2, 1, 2)
-plt.plot(time, wave_data[:, 1], c='g')
-plt.xlabel('time(seconds)')
-plt.ylabel('Amplitude')
-plt.title('Right channel')
-plt.grid()
+# audio_path = '../music/piano.wav'
+# x, sr = librosa.load(audio_path, sr=None)
+# print(type(x), type(sr))
+# plt.figure(figsize=(14, 5))
+# librosa.display.waveplot(x, sr=sr)
+# plt.xlabel('Time')
+# plt.ylabel('Frequency')
+# plt.show()
+#
+#
+# Wave_read = wave.open('../music/piano.wav', 'rb')
+# params = Wave_read.getparams()
+# nchannels, sampwidth, framerate, nframes = params[:4]
+#
+# str_data = Wave_read.readframes(nframes)
+# Wave_read.close()
+#
+# wave_data = np.fromstring(str_data, dtype=np.short)
+# # wave_data = wave_data*1.0/(max(abs(wave_data)))
+# wave_data = np.reshape(wave_data, [nframes, nchannels])
+# time = np.arange(0, nframes) * (1.0 / framerate)
+#
+# plt.figure()
+# 0-
+# plt.subplot(2, 1, 1)
+# plt.plot(time, wave_data[:, 0])
+# plt.xlabel('time (seconds)')
+# plt.ylabel('Amplititude')
+# plt.title('Left channel')
+# plt.grid()
+#
+# plt.subplot(2, 1, 2)
+# plt.plot(time, wave_data[:, 1], c='g')
+# plt.xlabel('time(seconds)')
+# plt.ylabel('Amplitude')
+# plt.title('Right channel')
+# plt.grid()
 
 #
 # plt.show()
@@ -64,135 +64,135 @@ plt.grid()
 #
 #
 # # 弗利葉轉換
-sampling_freq, audio = wavfile.read(r'../music/piano.wav')
+# sampling_freq, audio = wavfile.read(r'../music/piano.wav')
 #
 # sc = StandardScaler()
 #
 #
-audio = audio / np.max(audio)
+# audio = audio / np.max(audio)
 # audio = sc.fit_transform(audio)
 
-fft_signal = np.fft.fft(audio)
+# fft_signal = np.fft.fft(audio)
 
-fft_signal = abs(fft_signal)
-Freq = np.arange(0, len(fft_signal))
+# fft_signal = abs(fft_signal)
+# Freq = np.arange(0, len(fft_signal))
 #
-plt.figure()
-plt.plot(Freq, fft_signal, color='blue')
-plt.xlabel('Freq (in kHz)')
-plt.ylabel('Amplitude')
-plt.show()
+# plt.figure()
+# plt.plot(Freq, fft_signal, color='blue')
+# plt.xlabel('Freq (in kHz)')
+# plt.ylabel('Amplitude')
+# plt.show()
 
 
 
-framerate = 44100
-time = 10
+# framerate = 44100
+# time = 10
+#
+# t = np.arange(0, time, 1.0/framerate)
+#
+# wave_data = signal.chirp(t, 100, time, 1000, method='linear')
+#
+# wave_data = wave_data.astype(np.short)
+#
+# f = wave.open(r'sweep.wav', 'wb')
+# f.setnchannels(1)
+# f.setsampwidth(2)
+# f.setframerate(framerate)
+# comptype = 'None'
+# compname = 'not compressed'
+#
+# f.writeframes(wave_data.tostring())
+# f.close()
+#
+#
+#
+# with wave.open(r'./piano.wav')as f:
+#     params = f.getparams()
+#     nchannels, sampwidth, framerate, nframes = params[:4]
+#     strData = f.readframes(nframes)
+#     waveData = np.fromstring(strData, dtype=np.short)
+#
+# waveData = waveData * 1.0 / max(abs(waveData))
+#
+# outData = waveData
+#
+# with wave.open(r'write.wave', 'wb') as outwave:
+#     nchannels = 1
+#     sampwidth = 2
+#     framerate = 8000
+#     nframes = len(outData)
+#
+#     comtype = 'NONE'
+#     compname = 'not compressed'
+#     outwave.setparams((nchannels, sampwidth, framerate, nframes,
+#                        comtype, compname))
+#
+#     for i in outData:
+#         outwave.writeframes(struct.pack('h', int(i * 64000 / 2)))
+#
+#
+# output_file = 'output_generated.wave'
+# duration = 3
+# sampling_freq = 44100
+# tone_freq = 587
+# min_val = -2 * np.pi
+# max_val = 2 * np.pi
+#
+# t = np.linspace(min_val, max_val, duration * sampling_freq)
+# audio = np.sin(2 * np.pi * tone_freq * t)
+#
+# noise = 0.4 * np.random.rand(duration * sampling_freq)
+# audio += noise
 
-t = np.arange(0, time, 1.0/framerate)
-
-wave_data = signal.chirp(t, 100, time, 1000, method='linear')
-
-wave_data = wave_data.astype(np.short)
-
-f = wave.open(r'sweep.wav', 'wb')
-f.setnchannels(1)
-f.setsampwidth(2)
-f.setframerate(framerate)
-comptype = 'None'
-compname = 'not compressed'
-
-f.writeframes(wave_data.tostring())
-f.close()
-
-
-
-with wave.open(r'./piano.wav')as f:
-    params = f.getparams()
-    nchannels, sampwidth, framerate, nframes = params[:4]
-    strData = f.readframes(nframes)
-    waveData = np.fromstring(strData, dtype=np.short)
-
-waveData = waveData * 1.0 / max(abs(waveData))
-
-outData = waveData
-
-with wave.open(r'write.wave', 'wb') as outwave:
-    nchannels = 1
-    sampwidth = 2
-    framerate = 8000
-    nframes = len(outData)
-
-    comtype = 'NONE'
-    compname = 'not compressed'
-    outwave.setparams((nchannels, sampwidth, framerate, nframes,
-                       comtype, compname))
-
-    for i in outData:
-        outwave.writeframes(struct.pack('h', int(i * 64000 / 2)))
-
-
-output_file = 'output_generated.wave'
-duration = 3
-sampling_freq = 44100
-tone_freq = 587
-min_val = -2 * np.pi
-max_val = 2 * np.pi
-
-t = np.linspace(min_val, max_val, duration * sampling_freq)
-audio = np.sin(2 * np.pi * tone_freq * t)
-
-noise = 0.4 * np.random.rand(duration * sampling_freq)
-audio += noise
-
-scaling_factor = pow(2, 15) -1
-audio_normalized = audio / np.max(np.abs(audio))
-audio_scaled = np.int16(audio_normalized * scaling_factor)
-write(output_file, sampling_freq, audio_scaled)
-
-
-audio = audio[: 300]
-x_values = np.arange(0, len(audio), 1) / float(sampling_freq)
-x_values *= 1000 #轉換微秒
-plt.plot(x_values, audio, color='blue')
-plt.xlabel('Time(ms)')
-plt.ylabel('Amplitude')
-plt.title('Audio signal')
-plt.show()
-
-
-def Synthetic_tone(freq, duration, amp=1.0, sampling_freq=44100):
-    t = np.linspace(0, duration, duration * sampling_freq)
-    audio = amp * np.sin(2 * np.pi * freq * t)
-    return audio.astype(np.int16)
-
-tone_map_file = 'tone_freq_map.json'
-
-with open(tone_map_file, 'r') as f:
-    tone_freq_map = json.loads(f)
-    print(tone_freq_map)
-
-input_tone = 'G'
-duration = 2
-amplitude = 10000
-sampling_freq = 44100
-
-
-synthesized_tone = Synthetic_tone(tone_freq_map[input_tone], duration, amplitude, sampling_freq)
-write('output_tone.wave', sampling_freq, synthesized_tone)
-
-
-tone_seq = [('D', 0.3), ('G', 0.6), ('C', 0.5), ('A', 0.3), ('Asharp', 0.7)]
-
-
-
-output = np.array([])
-for item in tone_seq:
-    input_tone = item[0]
-    duration = item[1]
-    synthesized_tone = Synthetic_tone(tone_freq_map[input_tone], duration, amplitude, sampling_freq)
-    output.append(output, synthesized_tone, axis=0)
-
-write('output_tone_seq.wav', sampling_freq, output)
+# scaling_factor = pow(2, 15) -1
+# audio_normalized = audio / np.max(np.abs(audio))
+# audio_scaled = np.int16(audio_normalized * scaling_factor)
+# write(output_file, sampling_freq, audio_scaled)
+#
+#
+# audio = audio[: 300]
+# x_values = np.arange(0, len(audio), 1) / float(sampling_freq)
+# x_values *= 1000 #轉換微秒
+# plt.plot(x_values, audio, color='blue')
+# plt.xlabel('Time(ms)')
+# plt.ylabel('Amplitude')
+# plt.title('Audio signal')
+# plt.show()
+#
+#
+# def Synthetic_tone(freq, duration, amp=1.0, sampling_freq=44100):
+#     t = np.linspace(0, duration, duration * sampling_freq)
+#     audio = amp * np.sin(2 * np.pi * freq * t)
+#     return audio.astype(np.int16)
+#
+# tone_map_file = 'tone_freq_map.json'
+#
+# with open(tone_map_file, 'r') as f:
+#     tone_freq_map = json.loads(f)
+#     print(tone_freq_map)
+#
+# input_tone = 'G'
+# duration = 2
+# amplitude = 10000
+# sampling_freq = 44100
+#
+#
+# synthesized_tone = Synthetic_tone(tone_freq_map[input_tone], duration, amplitude, sampling_freq)
+# write('output_tone.wave', sampling_freq, synthesized_tone)
+#
+#
+# tone_seq = [('D', 0.3), ('G', 0.6), ('C', 0.5), ('A', 0.3), ('Asharp', 0.7)]
+#
+#
+#
+# output = np.array([])
+# for item in tone_seq:
+#     input_tone = item[0]
+#     duration = item[1]
+#     synthesized_tone = Synthetic_tone(tone_freq_map[input_tone], duration, amplitude, sampling_freq)
+#     output.append(output, synthesized_tone, axis=0)
+#
+# write('output_tone_seq.wav', sampling_freq, output)
 
 
 
@@ -466,6 +466,45 @@ import wx
 # x = heapq.heapreplace(h, 7)
 # print("取出後", x)
 # print("執行後", h)
+
+
+from mido import MidiFile, MidiTrack, Message
+from mido.midifiles import MetaMessage
+import os
+
+# Path = './piano_test.mid'
+# midi = MidiFile(Path)
+# print(midi)
+#
+#
+#
+#
+# for track in midi.tracks:
+#     for message in track:
+#         print(message)
+
+
+
+from mido import Message, MidiFile, MidiTrack
+
+mid = MidiFile()
+track = MidiTrack()
+mid.tracks.append(track)
+
+track.append(Message('program_change', program=0, time=0))
+track.append(Message('control_change', channel=0 ,control=64, value=127, time=0))
+track.append(Message('note_on', note=43, velocity=43, time=127))
+track.append(Message('note_on', note=31, velocity=36, time=8))
+track.append(Message('control_change', channel=0 ,control=64, value=107, time=17))
+
+mid.save('new_song.mid')
+
+
+
+
+
+
+
 
 
 
