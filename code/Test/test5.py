@@ -55,7 +55,7 @@ for index in range(128):
         flat = NOTE_NAMES[note_idx + 1] + 'b'
         NOTE_NAME_MAP_FLAT['%s_%d' % (flat, oct_idx)] = index
         NOTE_NAME_MAP_SHARP['%s_%d' % (note_name, oct_idx)] = index
-        NOTE_VALUE_MAP_FLAT.append('%s_%d' % (flat, oct_idx))
+        NOTE_VALUE_MAP_FLAT.appen('%s_%d' % (flat, oct_idx))
         NOTE_VALUE_MAP_SHARP.append('%s_%d' % (note_name, oct_idx))
         globals()['%s_%d' % (note_name[0] + 's', oct_idx)] = index
         globals()['%s_%d' % (flat, oct_idx)] = index
@@ -562,7 +562,7 @@ class SysExEvent(Event):
 EventRegistry.register_event(SysExEvent)
 
 
-class MetaEvent(Event):
+class Metavent(Event):
     """
     MetaEvent is a special subclass of Event that is not meant to be used as a
     concrete class. It defines a subset of Events known as the Meta events.

@@ -472,32 +472,32 @@ from mido import MidiFile, MidiTrack, Message
 from mido.midifiles import MetaMessage
 import os
 
-# Path = './piano_test.mid'
-# midi = MidiFile(Path)
-# print(midi)
+Path = '../music/dataset/2004/Piano1.midi'
+midi = MidiFile(Path)
+print(midi)
+
+midi_message = []
+
+
+for track in midi.tracks:
+    for message in track:
+        midi_message.append(message)
+
+
+
+# from mido import Message, MidiFile, MidiTrack
 #
+# mid = MidiFile()
+# track = MidiTrack()
+# mid.tracks.append(track)
 #
+# track.append(Message('program_change', program=0, time=0))
+# track.append(Message('control_change', channel=0 ,control=64, value=127, time=0))
+# track.append(Message('note_on', note=43, velocity=43, time=127))
+# track.append(Message('note_on', note=31, velocity=36, time=8))
+# track.append(Message('control_change', channel=0 ,control=64, value=107, time=17))
 #
-#
-# for track in midi.tracks:
-#     for message in track:
-#         print(message)
-
-
-
-from mido import Message, MidiFile, MidiTrack
-
-mid = MidiFile()
-track = MidiTrack()
-mid.tracks.append(track)
-
-track.append(Message('program_change', program=0, time=0))
-track.append(Message('control_change', channel=0 ,control=64, value=127, time=0))
-track.append(Message('note_on', note=43, velocity=43, time=127))
-track.append(Message('note_on', note=31, velocity=36, time=8))
-track.append(Message('control_change', channel=0 ,control=64, value=107, time=17))
-
-mid.save('new_song.mid')
+# mid.save('new_song.mid')
 
 
 
