@@ -1,8 +1,36 @@
+#-*- coding:utf-8 _*-
+"""
+@Author: John
+@Email: workspace2johnwu@gmail.com
+@License: Apache Licence
+@File: midi_compose.py
+@Created: 2020/08/22
+@site:
+@software: PyCharm
+
+# code is far away from bugs with the god animal protecting
+    I love animals. They taste delicious.
+              ┏┓      ┏┓
+            ┏┛┻━━━┛┻┓
+            ┃            ┃
+            ┃  ┳┛  ┗┳  ┃
+            ┃      ┻      ┃
+            ┗━┓      ┏━┛
+                ┃      ┗━━━┓
+                ┃  神獸保佑    ┣┓
+                ┃　永無BUG！   ┏┛
+                ┗┓┓┏━┳┓┏┛
+                  ┃┫┫  ┃┫┫
+                  ┗┻┛  ┗┻┛
+"""
+
+
 import dlib
 import imutils
 import cv2
 import time
 import threading
+import numpy as np
 
 
 
@@ -43,17 +71,36 @@ class camCapture(object):
         return self.Frame
 
     def queryframe(self):
-
-
+        #初始偵測
+        self.status, self.Frame = self.capture.read()
+        if self.status:
+            blurred_avg = np.hstack([cv2.GaussianBlur(self.Frame, (3,3), 0),
+                                     cv2.GaussianBlur(self.Frame, (5,5), 0),
+                                     cv2.GaussianBlur(self.Frame, (7,7), 0)])
         frame_count = 0
         FPS= "0"
         detector = dlib.get_frontal_face_detector()
 
         while not self.isstop:
-            self.status, self.Frame = self.capture.read()
+            self.status, frame = self.capture.read()
 
 
-            if self.status is True:
+            if self.status:
+                #count 10 frame's FPS
+                blurred = np.hstack([cv2.GaussianBlur(self.Frame, (3, 3), 0),
+                                     cv2.GaussianBlur(self.Frame, (5, 5), 0),
+                                     cv2.GaussianBlur(self.Frame, (7, 7), 0)])
+                diff = cv2.absdiff(blurred_avg, blurred)
+
+                #將圖片轉為灰階
+                gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+                ret, tresh = cv2.threshold(gray, 25, 255, cv2.THRESH_BINARY)
+
+                #使用型態轉換函數去除雜訊
+                kernel = np.ones((5, 5), np.uint8)
+                thresh = cv2.morphologyEx(tresh, cv2.MORPH_OPEN, )
+
+
                 if frame_count == 0:
                     t_start=  time.time()
                 frame_count += 1
