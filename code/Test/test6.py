@@ -36,7 +36,7 @@ import face_recognition as fr
 import shutil
 import os
 
-
+import tkinter
 
 
 class camCapture(object):

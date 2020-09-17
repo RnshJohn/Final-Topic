@@ -1,10 +1,10 @@
-# -*- coding:utf-8 _*-
+#-*- coding:utf-8 _*-  
 """ 
 @Author: John
 @Email: workspace2johnwu@gmail.com
 @License: Apache Licence 
-@File: database_test.py 
-@Created: 2020/09/16
+@File: read_img.py 
+@Created: 2020/09/17
 @site:  
 @software: PyCharm 
 
@@ -24,24 +24,21 @@
                   ┗┻┛  ┗┻┛ 
 """
 
-import mysql.connector
-import os
+
+import tkinter as tk
+from tkinter import filedialog
 import sys
-from PIL import Image
 
-topic_db = mysql.connector.connect(
-    host = "127.0.0.1",
-    user = "root",
-    password = "851411asd",
-    database = "userdb",
-)
-cursor = topic_db.cursor()
-# cursor.execute("CREATE TABLE users(name VARCHAR(255), phone_number INTEGER(20), email VARCHAR (99),Data MEDIUMBLOB,user_id INTEGER  AUTO_INCREMENT PRIMARY KEY );")
+root = tk.Tk()
+root.withdraw()
 
+file_path = filedialog.askopenfilename()
 
-
-#read img path
-
-path =
 try:
-    fin = open(PATH);
+    fin = open(file_path)
+    img = fin.read()
+    fin.close()
+except IOError as e:
+    print("Error %d: %s" % (e.args[0], e.args[1]))
+    sys.exit(1)
+
