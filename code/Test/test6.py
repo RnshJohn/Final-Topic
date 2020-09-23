@@ -35,8 +35,8 @@ from time import sleep
 import face_recognition as fr
 import shutil
 import os
-
 import tkinter
+import time
 
 
 class camCapture(object):
@@ -57,6 +57,7 @@ class camCapture(object):
         self.dir_index = 0
         self.is_write = is_write
         self.write_num = 0
+
 
         if URL is None:
             self.capture = cv2.VideoCapture(1)
@@ -177,7 +178,7 @@ class camCapture(object):
 
     def img_process(self, detector, frame, writer):
 
-
+        current_time = time.strftime('%Y%m%d%H%M%S')
         face_react, scores, idx = detector.run(frame, 0)
         for i, d in enumerate(face_react):
             x1 = d.left()
@@ -189,8 +190,15 @@ class camCapture(object):
 
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 4, cv2.LINE_AA)
 
+            #face detector 臉部截截取
+            face_img = frame[y1: y2, x1: x2]
+            temp_time = current_time+'_'+str(i+1)
+            face_path = "./face/{}.jpg".format(temp_time)
+            cv2.imwrite(face_path, face_img)
+
             cv2.putText(frame, text, (x1, y1), cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 255, 255), 1, cv2.LINE_AA)
-        write_path = './temp_data/{}.jpg'.format(self.dir_index)
+
+        write_path = './temp_data/{}.jpg'.format(current_time)
         cv2.imwrite(write_path, frame)
         cv2.imshow("Face Dectection", frame)
 

@@ -36,7 +36,7 @@ topic_db = mysql.connector.connect(
     database = "userdb",
 )
 cursor = topic_db.cursor()
-# cursor.execute("CREATE TABLE users(name VARCHAR(255), phone_number INTEGER(20), email VARCHAR (99),Data MEDIUMBLOB,user_id INTEGER  AUTO_INCREMENT PRIMARY KEY );")
+cursor.execute("CREATE TABLE users(name VARCHAR(255), phone_number INTEGER(20), email VARCHAR (99),Data MEDIUMBLOB,user_id INTEGER  AUTO_INCREMENT PRIMARY KEY );")
 
 
 
@@ -44,4 +44,6 @@ cursor = topic_db.cursor()
 
 path =
 try:
-    fin = open(PATH);
+    fin = open(path)
+    img = fin.read(fin)
+    fin.close()
