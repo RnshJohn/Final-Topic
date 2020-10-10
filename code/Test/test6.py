@@ -142,8 +142,8 @@ class camCapture(object):
                 if frame_count == 0:
                     t_start=  time.time()
                 frame_count += 1
-                if frame_count >= 10:
-                    FPS = "FPS=%1f" % (10 / (time.time() - t_start))
+                if frame_count >= 60:
+                    FPS = "FPS=%1f" % (60 / (time.time() - t_start))
                     frame_count = 0
                     self.img_process(detector, frame, self.writer)
                     self.dir_index += 1

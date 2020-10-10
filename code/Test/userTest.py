@@ -3,8 +3,8 @@
 @Author: John
 @Email: workspace2johnwu@gmail.com
 @License: Apache Licence 
-@File: read_img.py 
-@Created: 2020/09/17
+@File: userTest.py.py 
+@Created: 2020/09/15
 @site:  
 @software: PyCharm 
 
@@ -25,21 +25,6 @@
 """
 
 
-import tkinter as tk
-from tkinter import filedialog
 import sys
-
-
-root = tk.Tk()
-root.withdraw()
-
-file_path = filedialog.askopenfilename()
-
-try:
-    fin = open(file_path)
-    img = fin.read()
-    fin.close()
-except IOError as e:
-    print("Error %d: %s" % (e.args[0], e.args[1]))
-    sys.exit(1)
-
+import
+user_picture =
